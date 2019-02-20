@@ -33,7 +33,7 @@ export class Form extends React.Component {
       end_date: new Date(),
       description: "",
       tags: [],
-      category: "",
+      category: "Miscellaneous",
       users: "",
       group: ""
     };
@@ -44,10 +44,8 @@ export class Form extends React.Component {
   }
 
   submitForm() {
-    new_start = +this.state.start_date;
-    console.log(new_start);
-    this.setState({ start_date: new_start });
-    this.setState({ end_date: +this.state.end_date });
+    this.setState({ start_date: this.state.start_date });
+    this.setState({ end_date: this.state.end_date });
     this.props.onSubmit(this.state);
   }
   render() {
@@ -82,7 +80,13 @@ export class Form extends React.Component {
           </Input>
           <Input label="Category">
             <DropDownInput
-              items={["Sports", "Social", "Free Food", "Danger Zone"]}
+              items={[
+                "Sports",
+                "Social",
+                "Free Food",
+                "Danger Zone",
+                "Miscellaneous"
+              ]}
               value={this.state.category}
               style={{ height: 50, width: 100 }}
               onChange={this.changeFormState("category")}

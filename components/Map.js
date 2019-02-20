@@ -17,6 +17,8 @@ import * as firebase from "firebase";
 // import {createStackNavigator, createAppContainer} from 'react-navigation';
 import EventForm from "./EventForm";
 import { Form } from "./Form";
+import { HitTestResultTypes } from "expo/build/AR";
+import DateTimeInput from "./DateTimeInput";
 
 const { width, height } = Dimensions.get("window");
 const firebaseConfig = {
@@ -50,6 +52,7 @@ class Map extends React.Component {
     this.addEvent = this.addEvent.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.setColor = this.setColor.bind(this);
+    this.toDateTime = this.toDateTime.bind(this);
     this.state = {
       region: {
         latitude: LATITUDE,
@@ -78,8 +81,12 @@ class Map extends React.Component {
     if (category == "Social") {
       color = "blue";
     }
+    if (category == "Miscellaneous") {
+      color = "grey";
+    }
     return color;
   }
+
   addEvent(form) {
     firebase
       .database()
@@ -114,12 +121,12 @@ class Map extends React.Component {
                 {
                   category: formObj[0],
                   coordinate: formObj[1],
-                  // end_date: formObj[2],
                   description: formObj[2],
-                  group: formObj[3],
-                  name: formObj[4],
-                  // start_date: formObj[6],
-                  users: formObj[5]
+                  end_date: formObj[3],
+                  group: formObj[4],
+                  name: formObj[5],
+                  start_date: formObj[6],
+                  users: formObj[7]
                 }
               ]
             });
@@ -155,6 +162,8 @@ class Map extends React.Component {
 
   onSubmit(form) {
     console.log(form);
+    form["start_date"] = +form["start_date"];
+    form["end_date"] = +form["end_date"];
     form["coordinate"] = this.state.markers[0].coordinate;
     this.addEvent(form);
     this.setModalVisible(false);
@@ -166,6 +175,32 @@ class Map extends React.Component {
     Alert.alert(
       "Brings up popup with more detailed information about the event!"
     );
+  }
+
+  toDateTime(milliseconds) {
+    var d = new Date(parseInt(milliseconds, 10));
+    var ds = d.toString("MM/dd/yy HH:mm:ss");
+    var dateTime = ds.substring(0, 21);
+    if (
+      dateTime[16] == "2" ||
+      (dateTime[16] == "1" && parseInt(dateTime[17], 10) > 2)
+    ) {
+      var new_hr = (parseInt(dateTime[16] + dateTime[17], 10) - 12).toString();
+      var fixedDateTime =
+        dateTime.substring(0, 16) + new_hr + dateTime.substring(18, 21) + " PM";
+      return fixedDateTime;
+    } else if (dateTime[16] == "0" && dateTime[17] == "0") {
+      var fixedDateTime =
+        dateTime.substring(0, 16) + "12" + dateTime.substring(18, 21) + " AM";
+      return fixedDateTime;
+    } else if (parseInt(dateTime.substring(16, 18), 10) < 12) {
+      if (dateTime[16] == "0") {
+        return dateTime.substring(0, 16) + dateTime.substring(17, 21) + " AM";
+      }
+      return dateTime + " AM";
+    } else if (parseInt(dateTime.subString(16, 18), 10) == 12) {
+      return dateTime + " PM";
+    }
   }
 
   render() {
@@ -248,6 +283,12 @@ class Map extends React.Component {
                     <View style={styles.calloutText}>
                       <Text>{marker.name}</Text>
                       <Text>{marker.description}</Text>
+                      <Text>
+                        {"Starts on " + this.toDateTime(marker.start_date)}
+                      </Text>
+                      <Text>
+                        {"Ends on " + this.toDateTime(marker.end_date)}
+                      </Text>
                     </View>
                   </TouchableHighlight>
                 </MapView.Callout>
@@ -261,30 +302,7 @@ class Map extends React.Component {
             >
               <Text> Create Marker </Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.bubble}
-              onPress={() =>
-                this.state.all_markers.map(marker => (
-                  <Marker
-                    title={marker.name}
-                    description={marker.description}
-                    coordinate={marker.coordinate}
-                  >
-                    <MapView.Callout>
-                      <TouchableHighlight
-                        onPress={() => this.markerClick()}
-                        underlayColor="white"
-                      >
-                        <View style={styles.calloutText}>
-                          <Text>{marker.name}</Text>
-                          <Text>{marker.description}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </MapView.Callout>
-                  </Marker>
-                ))
-              }
-            >
+            <TouchableOpacity style={styles.bubble}>
               <Text> Filter </Text>
             </TouchableOpacity>
           </View>
