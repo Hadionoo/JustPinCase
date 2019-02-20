@@ -21,14 +21,6 @@ import { HitTestResultTypes } from "expo/build/AR";
 import DateTimeInput from "./DateTimeInput";
 
 const { width, height } = Dimensions.get("window");
-const firebaseConfig = {
-  apiKey: "AIzaSyAomUzviEzRitHhTK1IR9LJbfhU6_9CzBk",
-  authDomain: "justpincase-c0785.firebaseapp.com",
-  databaseURL: "https://justpincase-c0785.firebaseio.com",
-  projectId: "justpincase-c0785",
-  storageBucket: "justpincase-c0785.appspot.com",
-  messagingSenderId: "357323316713"
-};
 //import this through config file later
 var mapStyle = [
     {
@@ -161,9 +153,6 @@ const LONGITUDE = -81.60844;
 const LATITUDE_DELTA = 0.007;
 const LONGITUDE_DELTA = 0.01; //LATITUDE_DELTA * ASPECT_RATIO;
 let id = 0;
-if (!firebase.app.length) {
-  firebase.initializeApp(firebaseConfig);
-}
 function randomColor() {
   return `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 }
