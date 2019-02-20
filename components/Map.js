@@ -11,7 +11,12 @@ import {
   Alert
 } from "react-native";
 import { MapView } from "expo";
-import { Callout, Marker, ProviderPropType, PROVIDER_GOOGLE } from "react-native-maps";
+import {
+  Callout,
+  Marker,
+  ProviderPropType,
+  PROVIDER_GOOGLE
+} from "react-native-maps";
 import * as firebase from "firebase";
 
 // import {createStackNavigator, createAppContainer} from 'react-navigation';
@@ -23,130 +28,130 @@ import DateTimeInput from "./DateTimeInput";
 const { width, height } = Dimensions.get("window");
 //import this through config file later
 var mapStyle = [
-    {
-        "featureType": "administrative",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "administrative.province",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "off"
-            }
-        ]
-    },
-    {
-        "featureType": "landscape",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": 65
-            },
-            {
-                "visibility": "on"
-            }
-        ]
-    },
-    {
-        "featureType": "poi",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "lightness": "50"
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": "-100"
-            }
-        ]
-    },
-    {
-        "featureType": "road.highway",
-        "elementType": "all",
-        "stylers": [
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "road.arterial",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "30"
-            }
-        ]
-    },
-    {
-        "featureType": "road.local",
-        "elementType": "all",
-        "stylers": [
-            {
-                "lightness": "40"
-            }
-        ]
-    },
-    {
-        "featureType": "transit",
-        "elementType": "all",
-        "stylers": [
-            {
-                "saturation": -100
-            },
-            {
-                "visibility": "simplified"
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "geometry",
-        "stylers": [
-            {
-                "hue": "#ffff00"
-            },
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -97
-            }
-        ]
-    },
-    {
-        "featureType": "water",
-        "elementType": "labels",
-        "stylers": [
-            {
-                "lightness": -25
-            },
-            {
-                "saturation": -100
-            }
-        ]
-    }
-]
+  {
+    featureType: "administrative",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: "-100"
+      }
+    ]
+  },
+  {
+    featureType: "administrative.province",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "off"
+      }
+    ]
+  },
+  {
+    featureType: "landscape",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: -100
+      },
+      {
+        lightness: 65
+      },
+      {
+        visibility: "on"
+      }
+    ]
+  },
+  {
+    featureType: "poi",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: -100
+      },
+      {
+        lightness: "50"
+      },
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "road",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: "-100"
+      }
+    ]
+  },
+  {
+    featureType: "road.highway",
+    elementType: "all",
+    stylers: [
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "road.arterial",
+    elementType: "all",
+    stylers: [
+      {
+        lightness: "30"
+      }
+    ]
+  },
+  {
+    featureType: "road.local",
+    elementType: "all",
+    stylers: [
+      {
+        lightness: "40"
+      }
+    ]
+  },
+  {
+    featureType: "transit",
+    elementType: "all",
+    stylers: [
+      {
+        saturation: -100
+      },
+      {
+        visibility: "simplified"
+      }
+    ]
+  },
+  {
+    featureType: "water",
+    elementType: "geometry",
+    stylers: [
+      {
+        hue: "#ffff00"
+      },
+      {
+        lightness: -25
+      },
+      {
+        saturation: -97
+      }
+    ]
+  },
+  {
+    featureType: "water",
+    elementType: "labels",
+    stylers: [
+      {
+        lightness: -25
+      },
+      {
+        saturation: -100
+      }
+    ]
+  }
+];
 const ASPECT_RATIO = width / height;
 const LATITUDE = 41.5075;
 const LONGITUDE = -81.60844;
