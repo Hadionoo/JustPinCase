@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import Map from "./components/Map";
 import { createBottomTabNavigator, createAppContainer } from "react-navigation";
 import Login from "./components/Login";
+import * as firebase from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAomUzviEzRitHhTK1IR9LJbfhU6_9CzBk",
@@ -14,9 +15,9 @@ const firebaseConfig = {
   storageBucket: "justpincase-c0785.appspot.com",
   messagingSenderId: "357323316713"
 };
-if (!firebase.app.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+//if (!firebase.app.length) {
+firebase.initializeApp(firebaseConfig);
+//}
 var db = firebase.database();
 
 const TabNavigator = createBottomTabNavigator({
